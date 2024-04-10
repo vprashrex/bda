@@ -84,6 +84,16 @@ print("Record(s) Inserted")
  
 3.	Read all the documents
 #Read
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+
 for i in collection.find():
     print(i)
  
