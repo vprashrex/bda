@@ -1,0 +1,5 @@
+### HBASE COMMANDS
+
+start-hbase.cmd # go to hbase bin folder and start hbase using this command
+status
+whoami

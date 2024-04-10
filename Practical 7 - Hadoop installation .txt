@@ -1,0 +1,138 @@
+Practical 7 - Hadoop installation 
+
+1. Check the java version in windows cmd: - 
+java -version
+ 
+2. Download and extract hadoop in “C://Hadoop-3.3.0”
+ 
+3. Set the environment varibales - hadoop.\bin 
+	new user varialble & new system variable
+Click on user variable -> path -> edit-> add path for Hadoop and java upto ‘bin’  
+Click Ok, Ok, Ok.
+
+
+ 4. Configurations
+core-site.xml
+ Mapred-site.xml
+ Yarn-site  
+  Hadoop-env
+ 
+Edit file C:/Hadoop-3.3.0/etc/hadoop/core-site.xml,
+paste the xml code in folder and save
+======================================================
+<configuration>
+<property>
+       <name>fs.defaultFS</name>
+       <value>hdfs://localhost:9000</value>
+ </property>
+</configuration>
+
+
+======================================================
+Rename “mapred-site.xml.template” to “mapred-site.xml” and edit this file C:/Hadoop-3.3.0/etc/hadoop/mapred-site.xml, paste xml code and save this file.
+======================================================
+<configuration>
+   <property>
+       <name>mapreduce.framework.name</name>
+       <value>yarn</value>
+   </property>
+</configuration>
+
+
+ ======================================================
+Create folder “data” under “C:\Hadoop-3.3.0”
+Create folder “datanode” under “C:\Hadoop-3.3.0\data”
+Create folder “namenode” under “C:\Hadoop-3.3.0\data”
+======================================================
+
+
+Edit file C:\Hadoop-3.3.0/etc/hadoop/hdfs-site.xml,
+paste xml code and save this file.
+
+<configuration>
+<property>
+       <name>dfs.replication</name>
+       <value>1</value>
+   </property>
+
+   <property>
+       <name>dfs.namenode.name.dir</name>
+       <value>/hadoop-3.3.0/data/namenode</value>
+   </property>
+
+   <property>
+       <name>dfs.datanode.data.dir</name>
+       <value>/hadoop-3.3.0/data/datanode</value>
+   </property>
+  </configuration>
+
+
+======================================================
+Edit file C:/Hadoop-3.3.0/etc/hadoop/yarn-site.xml,
+paste xml code and save this file.
+
+<configuration>
+   <property>
+                <name>yarn.nodemanager.aux-services</name>
+                <value>mapreduce_shuffle</value>
+   </property>
+
+   <property>
+               <name>yarn.nodemanager.auxservices.mapreduce.shuffle.class</name> 
+                <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+   </property>
+   <property>
+    		<name>yarn.resourcemanager.address</name>
+    		<value>127.0.0.1:8032</value>
+   </property>
+   <property>
+   		<name>yarn.resourcemanager.scheduler.address</name>
+    		<value>127.0.0.1:8030</value>
+    </property>
+    <property>
+    		<name>yarn.resourcemanager.resource-tracker.address</name>
+    		<value>127.0.0.1:8031</value>
+     </property>
+</configuration>
+
+
+======================================================
+3.	Edit file C:/Hadoop-3.3.0/etc/hadoop/hadoop-env.cmd
+Find “JAVA_HOME=%JAVA_HOME%” and replace it as 
+set JAVA_HOME="C:\Java\jdk1.8.0_361"
+ ======================================================
+
+Create a new environment user variable for hadoop as:
+	HADOOP_HOME -> path on hadoop bin folder
+
+Add the path of Hadoop bin and hadoop sbin in System variable > path as well
+
+
+4.	 Format the NameNode
+– Open cmd ‘Run as Administrator’ and type command
+hdfs namenode –format
+  
+ 
+8. Testing
+– Open cmd ‘Run as Administrator’ and change directory to hadoop sbin in sbin cmd
+start-all.cmd
+ OR
+ - type start-dfs.cmd , – type start-yarn.cmd / start-all.cmd
+
+ 
+– You will get 4 more running threads for Datanode, namenode, resouce manager and node manager
+ 
+
+9. Type JPS command to start-all.cmd command prompt, you will get following output.
+jps
+ 
+10. Run http://localhost:9870/ from any browser
+ 
+ 
+ 
+
+
+
+
+
+

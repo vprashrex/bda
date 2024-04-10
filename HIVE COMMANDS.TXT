@@ -1,0 +1,47 @@
+#hive commands
+#create database
+
+show databases;
+create database demo;
+show databases;
+describe database extended demo;
+
+#drop database
+show databases;
+drop database demo;
+show databases;
+drop database if exists demo cascade;
+
+#create table
+
+create table demo.employee (Id int, Name string , Salary float)
+row format delimited
+fields terminated by ',' ;
+describe demo.employee;
+
+#drop table
+show databases;
+use demo;
+show tables;
+drop table new_employee;
+show tables;
+
+#Alter Table
+Alter table emp RENAME to employee_data;
+show tables;
+
+#Adding column
+describe employee_data;
+select *from employee_data;
+Alter table employee_data add columns (age int);
+describe employee_data;
+
+#change coloumn
+describe employee_data;
+Alter table employee_data change name first_name string;
+describe employee_data;
+
+#delete or replace coloumn
+describe employee_data;
+alter table employee_data replace columns( id string, first_name string, age int);
+describe employee_data;

@@ -1,0 +1,261 @@
+Practical 3 : Operation Query & Aggregation Pipeline
+Q.1. Create a student database with fields roll no,first name, last name, skills(C,Python,Java[list/array]), degree(BSc CS,BSc IT, BSc Biochemistry), semester(1,2,3,4,5,6), marks,sgpa
+db.students.insert(
+{
+roll_no: 1,
+first_name: "Arhaan",
+last_name: "Khan",
+skills: ["Python","Java"],
+degree: "BSc CS",
+semester: 2,
+marks: 890,
+sgpa: 8.5
+}
+)
+ 
+Q.2 Create 10 student documents 
+db.students.insertMany([
+    {
+        roll_no: 2,
+        first_name: "Priya",
+        last_name: "Gupta",
+        skills: ["C","Gaming"],
+        degree: "BSc IT",
+        semester: 3,
+        marks: 700,
+        sgpa: 8.0
+    },
+    {
+        roll_no: 3,
+        first_name: "Sneha",
+        last_name: "Sharma",
+        skills: ["Designing","Animation"],
+        degree: "BSc Maths",
+        semester: 6,
+        marks: 760,
+        sgpa: 9.9
+    },
+    {
+        roll_no: 4,
+        first_name: "Kiran",
+        last_name: "Kapoor",
+        skills: ["Direct Taxation","Research Methodology"],
+        degree: "BBI",
+        semester: 3,
+        marks: 150,
+        sgpa: 3.3
+    },
+    {
+        roll_no: 5,
+        first_name: "Shantanu",
+        last_name: "Sippi",
+        skills: ["Dept Markets","Equity Markets"],
+        degree: "BFM",
+        semester: 5,
+        marks: 650,
+        sgpa: 7.5
+    },
+    {
+        roll_no: 6,
+        first_name: "Kajol",
+        last_name: "Bala",
+        skills: ["Biology","Chemistry","Physics"],
+        degree: "BSc Biochemistry",
+        semester: 5,
+        marks: 850,
+        sgpa: 8.2
+    }
+])
+ 
+ 
+db.students.insertMany([
+    {
+        roll_no: 7,
+        first_name: "Aditya",
+        last_name: "Singh",
+        skills: ["Web Development","Bootstrap","Data Analytics"],
+        degree: "BSc CS",
+        semester: 4,
+        marks: 740,
+        sgpa: 7.5
+    },
+    {
+        roll_no: 8,
+        first_name: "Veer",
+        last_name: "Shah",
+        skills: ["JQuery","Javascript","Machine Learning"],
+        degree: "BSc IT",
+        semester: 2,
+        marks: 650,
+        sgpa: 6.9
+    },
+    {
+        roll_no: 9,
+        first_name: "Karan",
+        last_name: "Oberoi",
+        skills: ["Economics","History","English"],
+        degree: "BA",
+        semester: 2,
+        marks: 720,
+        sgpa: 7.2
+    },
+    {
+        roll_no: 10,
+        first_name: "Avanti",
+        last_name: "Mukta",
+        skills: ["Statistics","Law"],
+        degree: "BFA",
+        semester: 5,
+        marks: 620,
+        sgpa: 6.9
+    },
+    {
+        roll_no: 11,
+        first_name: "Tanisha",
+        last_name: "Rane",
+        skills: ["MySQL","Plsql","MongoDB"],
+        degree: "BSc  CS",
+        semester: 1,
+        marks: 690,
+        sgpa: 7.6
+    },
+    {
+        roll_no: 12,
+        first_name: "Rehan",
+        last_name: "Shaikh",
+        skills: ["Basics of Financial Services","Equity and debt market"],
+        degree: "BMS",
+        semester: 1,
+        marks: 520,
+        sgpa: 6.5
+    },
+    {
+        roll_no: 13,
+        first_name: "Tanu",
+        last_name: "Ahuja",
+        skills: ["Media Studies","Radio","TV","Mass Media Research"],
+        degree: "BAMMC",
+        semester: 4,
+        marks: 200,
+        sgpa: 3.5
+    },
+    {
+        roll_no: 14,
+        first_name: "Aisha",
+        last_name: "Qureshi",
+        skills: ["Data Analytics","Machine learning","Artificial Intelligence"],
+        degree: "BSc CS",
+        semester: 6,
+        marks: 800,
+        sgpa: 10.0
+    },
+    {
+        roll_no: 15,
+        first_name: "Sanober",
+        last_name: "Mirza",
+        skills: ["Physiotherapy","Medicines"],
+        degree: "BPharm",
+        semester: 1,
+        marks: 950,
+        sgpa: 9.9
+    }
+])
+ 
+ 
+Q.3 Display roll no,degree, semester, sgpa of all students
+db.students.find({},{roll_no:1,degree:1,semester:1,sgpa:1,_id:0})
+ 
+Q.4 Display roll no, first name and degree of all students having degree as BSc CS
+db.students.find({"degree":"BSc CS"},{roll_no:1,first_name:1,degree:1,_id:0})
+ 
+Q.5 Display roll no, first name, semester, marks of all students which are in semester 5
+db.students.find({"semester":5},{roll_no:1,first_name:1,semester:1,marks:1,_id:0})
+ 
+Q.6 Display roll no, semester, marks, sgpa of all students having marks in the range 600 and 700
+db.students.find({"marks":{$lte:700,$gte:600}},{roll_no:1,semester:1,marks:1,sgpa:1,_id:0})
+ 
+Q.7 Display roll no, semester, degree,marks, sgpa of all students having degree as either BSc IT or BSc Maths
+db.students.find({$or:[{"degree": "BSc IT"},{"degree": "BSc CS"}]},{roll_no:1,semester:1,degree:1,marks:1,sgpa:1,_id:0})
+ 
+Q.8 Display roll no, semester, degree,marks, sgpa of all students not having degree as either BSc IT or BSc Maths
+db.students.find({$nor:[{"degree": "BSc IT"},{"degree": "BSc CS"}]},{roll_no:1,semester:1,degree:1,marks:1,sgpa:1,_id:0})
+ 
+Q.9 Count the number of students in semester 5
+db.students.find({"semester":5}).count()
+ 
+Q.10 Display roll no, first name, degree and semester of all students who are in the semester 1 and 3
+db.students.find({$or:[{"semester":1},{"semester":3}]},{roll_no:1,first_name:1,degree:1,semester:1,_id:0})
+ 
+Q.11 Display roll no, first name, degree and semester of all students who are in the semester between 1 and 3
+db.students.find({"semester":{$gte:1,$lte:3}},{roll_no:1,first_name:1,degree:1,semester:1,_id:0})
+ 
+Q.12  Display roll no, first name, degree and skills of students whose first name starts with the letter ‘A’
+db.students.find({"first_name":{$regex:"^A"}},{roll_no:1,first_name:1,degree:1,skills:1,_id:0})
+ 
+Q.13 Display roll no, first name, degree and skills of students whose last name ends with the letter ‘a’
+db.students.find({"first_name":{$regex:"a$"}},{roll_no:1,first_name:1,degree:1,skills:1,_id:0})
+ 
+Q.14 Display roll no, first name, degree of all students containing pattern “ha” in first name
+db.students.find({"first_name":{$regex:"ha"}},{roll_no:1,first_name:1,degree:1,_id:0})
+ 
+db.students.find({"first_name":{$regex:/ha/}},{roll_no:1,first_name:1,degree:1,_id:0})
+ 
+Q.15 Change students marks as 870 for roll no 1
+db.students.update({"roll_no":1},{$set:{marks:870}})
+ 
+Q.16 Increase the marks of students by 10 having marks in the range 600 and 700
+db.students.updateMany({"marks":{$lte:700,$gte:600}},{$inc:{"marks":10}})
+ 
+Q.17 Increase the marks of  all the students by 5
+db.students.updateMany({},{$inc:{"marks":5}})
+ 
+Extra Questions : Based on unwind
+Display the skills of each student per document separately (using unwind)
+
+ 
+Display the skills[Data Analyics] of students per document separately (using unwind)
+ db.students.aggregate([{$unwind:"$skills"},{$project:{_id:0,roll_no:1,first_name:1,skills:1}}])
+ 
+Display only first 5 records
+db.students.aggregate([{$unwind:"$skills"},{$project:{first_name:1,skills:1,degree:1,_id:0,semester:1,marks:1}},{$limit:5}])
+
+ 
+Display last 3 records from first 5 records
+db.students.aggregate([{$unwind:"$skills"},{$project:{first_name:1,skills:1,degree:1,_id:0,semester:1,marks:1}},{$limit:5},{$skip:2}])
+ 
+
+
+
+Create a new collection which stores all the records from student collection having CS as degree using $out
+db.students.aggregate([{$match:{"degree":"BSc CS"}},{$out:"students2"}])
+ 
+Display the student documents who are having exactly 2 skills
+db.student.find({skills:{$size:2}})
+ 
+Display the first document from all set of student documents based on degree
+ 
+
+db.students.aggregate([{$sort:{degree:1}},{$group:{_id:"$degree",FirstRecord:{$first:"$first_name"}}}])
+
+
+
+Display the last document from all set of student documents based on degree
+
+db.students.aggregate([{$sort:{degree:1}},{$group:{_id:"$degree",LastRecord:{$first:"$last_name"}}}])
+ 
+Display the first document from all set of student documents 
+Display the last document from all set of student documents
+ 
+Display the first document from the set of documents sorted based on degree
+
+  
+Display the document with the highest marks based on degree
+ 
+
+Display the document with the lowest marks based on degree
+ 
+Display all student name in upper case letter
+ 
+Display all student name in lower case letter
+ 
+

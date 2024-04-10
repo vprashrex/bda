@@ -1,0 +1,67 @@
+Practical 12: Hive Installation
+
+1.	Install files from
+To install hive: https://archive.apache.org/dist/hive/hive-3.1.2/
+To download Derby: https://archive.apache.org/dist/db/derby/
+
+2.	Unzip the derby and hive files
+ 
+
+3.	Copy the hive and derby folder to C
+ 
+
+4.	Copy all jar files from derby -> lib into hive->lib
+derby.jar , derby.war , derbyclient.jar , derbyLocale_cs.jar , derbyLocale_es.jar , derbyLocale_cs.jar, derbyLocale_fr.jar
+ 
+
+5.	Set envirnment vairbales
+ 
+ChocolateyLastPathUpdate - 
+ChocolatelyInstall - c:\programData\chocolatey
+set environment varialble path - c:\hive\bin , c:\programData\chocolatey
+ 
+ 
+ 6.	Start Hadoop dfs and yarn, start derby and then start hive
+sbin>start-dfs
+sbin>start-yarn
+
+in cmd:
+cd C:\derby\bin
+ 
+ 
+7.	Copy hive-default.xml as hive-site.xml 
+ 
+
+8.	Open hive-site and add property as below
+<name>hive.metastore.uris</name>
+
+And make the following changes:
+
+<property>
+
+
+ <name>hive.metastore.uris</name>
+
+
+ <value>thrift://<IP address of your host>:9083</value>
+
+
+ <description>Thrift URI for the remote metastore. Used by metastore client to connect to remote metastore.</description>
+
+
+  </property>
+
+9.	Check hive installation in cmd
+hive -help
+ 
+
+10.	Start hadoop 
+
+11.	Use command to start derby
+in cmd:
+start-all.cmd
+startNetworkServer –h 0.0.0.0 
+ 
+ 
+
+12.	Use “hive” command to start hive

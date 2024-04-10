@@ -1,0 +1,312 @@
+Practical 4 : To demonstrate Aggregation Pipeline in MongoDB – I.
+Create a mongodb schema with name inventory and contains the following attributes.
+1.	Item name
+2.	Quantity
+3.	Size (height, width and unit of measure)
+4.	Quality (having grade from A – E)
+5.	Instock (warehouse [Eg: w1, w2], quantity)
+ 
+ 
+db.inventory.insert(
+{
+item_name : "Magzines",
+quantity : 50,
+size : {
+	height : 30,
+	width: 12,
+	unit: "cm"
+},
+quality : "A",
+instock : [{"w_house":"W2","w_quantity":20},{"w_house":"W4","w_quantity":30}]
+}
+)
+
+
+db.inventory.insertMany([
+    {
+        item_name: "Table",
+        quantity: 40,
+        size: {
+            height: 1,
+            width: 5,
+            unit: "m"
+        },
+        quality: "A",
+        instock: [{"w_house": "W2", "w_quantity": 15}, {"w_house": "W3", "w_quantity": 15}, {"w_house": "W5", "w_quantity": 10}]
+    },
+    {
+        item_name: "Chairs",
+        quantity: 30,
+        size: {
+            height: 0.5,
+            width: 0.5,
+            unit: "m"
+        },
+        quality: "B",
+        instock: [{"w_house": "W1", "w_quantity": 10}, {"w_house": "W5", "w_quantity": 10}, {"w_house": "W5", "w_quantity": 10}]
+    },
+    {
+        item_name: "Ball",
+        quantity: 20,
+        size: {
+            height: 5,
+            width: 5,
+            unit: "cm"
+        },
+        quality: "D",
+        instock: [{"w_house": "W2", "w_quantity": 15}, {"w_house": "W3", "w_quantity": 5}]
+    },
+    {
+        item_name: "Monitor",
+        quantity: 45,
+        size: {
+            height: 30,
+            width: 5,
+            unit: "cm"
+        },
+        quality: "C",
+        instock: [{"w_house": "W6", "w_quantity": 15}, {"w_house": "W3", "w_quantity": 15}, {"w_house": "W2", "w_quantity": 15}]
+    },
+    {
+	item_name: "Papers",
+	quantity: 60,
+        size: {
+            height: 20,
+            width: 12,
+            unit: "cm"
+        },
+        quality: "B",
+        instock: [{"w_house": "W5", "w_quantity": 15}, {"w_house": "W4", "w_quantity": 15}, {"w_house": "W1", "w_quantity": 20}, {"w_house": "W6", "w_quantity": 5}]
+    },
+   {
+	item_name: "Bag",
+	quantity: 40,
+        size: {
+            height: 3,
+            width: 5,
+            unit: "m"
+        },
+        quality: "A",
+        instock: [{"w_house": "W1", "w_quantity": 20}, {"w_house": "W2", "w_quantity": 20}]
+    }
+]);
+
+
+
+
+
+ 
+ 
+Questions:
+1.	Find all items having quantity less than or equal to 50
+inventoryCollection = db.inventory
+inventoryCollection.find({quantity:{$lte:10}},{item_name:1,quantity:1,_id:0});
+ 
+2.	Find all items having quality as A and display name and quality only
+inventoryCollection.find({"quality":"A"},{item_name:1,quality:1,_id:0});
+ 
+3.	Having instock warehouse as 1 and display names, instock warehouse and instock quantity
+inventoryCollection.find({"instock.w_house":"W1"},{item_name:1,instock:1,_id:0})
+ 
+4.	Having quality as B and D and display their names and quality
+inventoryCollection.find({$or:[{"quality":"B"},{"quality":"D"}]},{item_name:1,quality:1,_id:0})
+ 
+5.	Having instock quantity between 20 and 40 and display names, quantity and instock data
+inventoryCollection.find({"instock.w_quantity":{$lte:40,$gte:20}},{item_name:1,quantity:1,"instock.w_quantity":1,_id:0}) 
+6.	Find all items starting with M.
+inventoryCollection.find({"item_name":{$regex:'M'}},{item_name:1,quantity:1,_id:0})
+ 
+7.	Find all inventory item names having instock warehouse as w2 and w5 and w7, show name, warehouse number, except id
+inventoryCollection.find({"instock.w_house":{$in:["W2","W5","W7"]}},{item_name:1,"instock.w_house":1,_id:0})
+ 
+8.	Find all inventory item names having instock warehouse not as w5 and w7, show name, warehouse number, except id
+inventoryCollection.find({"instock.w_house":{$nin:["W5","W7"]}},{item_name:1,"instock.w_house":1,_id:0})
+ 
+9.	Item names not having instock quantity greater than equal to 50
+inventoryCollection.find({"instock.w_quantity":{$not:{$gte:50}}},{item_name:1,"instock.w_quantity":1,_id:0})
+ 
+10.	Quality as E and quantity greater than equal to 50
+inventoryCollection.find({$and:[{"quality":"B"},{"quantity":{$gte:50}}]},{item_name:1,quality:1,quantity:1,_id:0})
+ 
+11.	Count of inventory having unit of measure as metre
+inventoryCollection.find({"size.unit":"m"}).count()
+ 
+12.	Display first 3 documents
+inventoryCollection.find({},{item_name:1,quantity:1,"size":1,_id:0}).limit(3)
+ 
+
+
+
+
+
+
+
+
+Aggregation functions: match-> group-> project-> sort-> limit
+1.	Display the total quantity of all items.
+db.inventory.aggregate([{$group:{_id:null,"Total Sum of Quantity ":{$sum:"$quantity"}}}])
+ 
+2.	Display the average quantity of items present in each document within the collection.
+db.inventory.aggregate([{$group:{_id:null,"Avg Quantity ":{$avg:"$quantity"}}}])
+ 
+3.	Display which item has the highest quantity within the collection.
+db.inventory.aggregate([{$group:{_id:null,"Maximum Quantity ":{$max:"$quantity"}}}])
+ 
+4.	Display which item has the lowest quantity within the collection.
+db.inventory.aggregate([{$group:{_id:null,"Minimum Quantity ":{$min:"$quantity"}}}])
+ 
+5.	Display all the items having unit in cm using $match stage.
+db.inventory.aggregate([{$match:{"size.unit":"cm"}},{$project:{_id:0,item_name:1,"size.unit":1}}])
+ 
+6.	Match items having quantity greater than equal to 40 quantity
+db.inventory.aggregate([{$match:{"quantity":{$gte:40}}},{$project:{_id:0,item_name:1,quantity:1}}])
+ 
+7.	Items having Unit of Measure as metre and display item name and size
+db.inventory.aggregate([{$match:{"size.unit":"m"}},{$project:{_id:0,item_name:1,size:1}}])
+ 
+8.	Display all inventory items using $match in aggregation
+db.inventory.aggregate([{$match:{}},{$project:{_id:0,item_name:1,quantity:1,quality:1}}])
+ 
+9.	Item having names: Chairs, journal, duster and display its: Name quantity unit
+db.inventory.aggregate([{$match:{"item_name":{$in:["Chairs","Magzines","Bag"]}}},{$project:{_id:0,item_name:1,quantity:1,"size.unit":1}}])
+ 
+10.	Item names not having: Chairs, journal, duster and display its: Name quantity unit
+db.inventory.aggregate([{$match:{"item_name":{$nin:["Chairs","Magzines","Bag"]}}},{$project:{_id:0,item_name:1,quantity:1,"size.unit":1}}])
+ 
+11.	Display all items having instock quantity between 10 and 15, display item name, unit of measure and instock details.
+db.inventory.aggregate([{$match:{"instock.w_quantity":{$gte:10,$lte:15}}},{_id:0,item_name:1,"size.unit":1,instock:1}])
+ 
+12.	Display all items sorted on item names
+db.inventory.aggregate([{$match:{}},{$sort:{item_name:1}},{$project:{_id:0,item_name:1,quantity:1}}])
+ 
+13.	Display all items having quantity greater than equal to 70 sorted by their quantity in descending order and display their iname and quantity
+db.inventory.aggregate([{$match:{"quantity":{$gte:30}}},{$sort:{quantity:-1}}, {$project:{_id:0,item_name:1,quantity:1}}])
+ 
+Adding additional records to perform group aggregation on:
+db.inventory.insertMany([
+    {
+        item_name: "Journal",
+        quantity: 50,
+        size: {
+            height: 10,
+            width: 15,
+            unit: "cm"
+        },
+        quality: "D",
+        instock: [{"w_house": "W2", "w_quantity": 10}, {"w_house": "W3", "w_quantity": 15}]
+    },
+    {
+        item_name: "Chairs",
+        quantity: 60,
+        size: {
+            height: 5.5,
+            width: 6.5,
+            unit: "m"
+        },
+        quality: "C",
+        instock: [{"w_house": "W5", "w_quantity": 30}, {"w_house": "W4", "w_quantity": 30}]
+    },
+    {
+        item_name: "Scissors",
+        quantity: 70,
+        size: {
+            height: 10,
+            width: 8,
+            unit: "cm"
+        },
+        quality: "B",
+        instock: [{"w_house": "W1", "w_quantity": 25}, {"w_house": "W1", "w_quantity": 3}]
+    },
+    {
+        item_name: "Monitor",
+        quantity: 20,
+        size: {
+            height: 30,
+            width: 10,
+            unit: "cm"
+        },
+        quality: "B",
+        instock: [{"w_house": "W5", "w_quantity": 25}, {"w_house": "W2", "w_quantity": 30}, {"w_house": "W5", "w_quantity": 5}]
+    },
+    {
+	item_name: "Journal",
+	quantity: 40,
+        size: {
+            height: 25,
+            width: 15,
+            unit: "cm"
+        },
+        quality: "A",
+        instock: [{"w_house": "W3", "w_quantity": 25}, {"w_house": "W2", "w_quantity": 10}, {"w_house": "W1", "w_quantity": 20}, {"w_house": "W6", "w_quantity": 5}]
+    },
+   {
+	item_name: "Bag",
+	quantity: 40,
+        size: {
+            height: 3,
+            width: 5,
+            unit: "m"
+        },
+        quality: "A",
+        instock: [{"w_house": "W1", "w_quantity": 20}, {"w_house": "W2", "w_quantity": 20}]
+    }
+]);
+ 
+1. Display all items with name journals 
+ 
+2. Display all inventory item names grouped by their name
+db.inventory.aggregate([{$group:{_id:"$item_name"}}])
+ 
+3. Count the number of items in a particular group, by item name
+inventoryCollection.aggregate([{$group:{_id:"$item_name","total item are":{$sum:1}}}])
+[
+ 
+4. Count the number of items in a particular group, by item name and sort them in ascending order
+db.inventory.aggregate([{$group:{_id:"$item_name",count:{$sum:1}}},{$sort:{_id:1}}])
+ 
+Descending
+ 
+5.  Display total quantities of all items grouped by item name and sort ascendingly
+db.inventory.aggregate([{$group:{_id:"$item_name",count:{$sum:1}}},{$sort:{_id:-1}}])
+ 
+6.	Display total quantities of all items grouped by item name and sort ascendingly having count gte 80
+
+ db.inventory.aggregate([{$group:{_id:"$item_name",count:{$sum:"$quantity"}}},{$sort:{_id:1}},{$match:{count:{$gte:40}}}])
+ 
+7.	Display all names with their quantity, using project first and then match gte 50
+db.inventory.aggregate([{$project:{_id:0,item_name:1,quantity:1}},{$match:{quantity:{$gte:50}}}])
+ 
+8.	Display all names with their quantity, using project first and then match gte 50, group and count the number of items by item name sorted on their total count
+
+db.inventory.aggregate([{$project:{_id:0,item_name:1,quantity:1}},{$match:{quantity:{$gte:50}}},{$group:{_id:"$item_name",count:{$sum:1}}},{$sort:{count:1}}])
+ 
+9.	Display all names with their quantity, using project first and then match gte 50, group and calculate the number of items by item name sorted on their total quantity
+
+db.inventory.aggregate([{$project:{_id:0,item_name:1,quantity:1}},{$match:{quantity:{$gte:50}}},{$group:{_id:"$item_name",count:{$sum:"$quantity"}}},{$sort:{count:1}}])
+ 
+10.	Group by name as well as quantity
+ db.inventory.aggregate([{$group:{_id:{ItemName:"$item_name",Quantity:"$quantity"},count:{$sum:1}}}])
+
+11.	Calculate total quantity of items grouped by item name and quantity
+
+db.inventory.aggregate([{$group:{_id:{ItemName:"$item_name",Quantity:"$quantity"},count:{$sum:"$quantity"}}}])
+ 
+12.	Calculate total quantity of items grouped by item name and quantity and sort by iname
+db.inventory.aggregate([{$group:{_id:{ItemName:"$item_name",Quantity:"$quantity"},count:{$sum:"$quantity"}}},{$sort:{_id:1}}])
+ 
+13.	Calculate total quantity of items grouped by item name and quantity and sort by iname, display all records except first 2 records.
+
+db.inventory.aggregate([{$group:{_id:{ItemName:"$item_name",Quantity:"$quantity"},count:{$sum:"$quantity"}}},{$sort:{_id:1}},{$skip:2}])
+ 
+14.	Calculate total quantity of items grouped by item name and quantity and sort by iname, display all records except first 2 records and limit upto 3.
+
+db.inventory.aggregate([{$group:{_id:{ItemName:"$item_name",Quantity:"$quantity"},count:{$sum:"$quantity"}}},{$sort:{_id:1}},{$limit:3}])
+ 
+15.	Average:
+ 
+16.	Grouped by name and average
+ 
+OR
+ 		
+
+

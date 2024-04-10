@@ -1,0 +1,204 @@
+Practical 8: Pig Insallation    
+
+
+1.	Downlaod pig from official page. Download pig-0.17.0.tar.gz file
+https://downloads.apache.org/pig/pig-0.17.0/ 
+
+2.	Unzip file
+ 
+3.	Set environment variables - PIG_HOME -> \
+c\pig
+%PIG_HOME%\bin (system path variable)
+
+ 
+4.	Check pig version(in cmd)
+ pig -verison
+
+
+5.	If received above error, solve by changing pig.cmd file as below
+
+setlocal enabledelayedexpansion
+set HADOOP_BIN_PATH=%HADOOP_HOME%\libexec
+ 
+6.	Try pig –version command again.
+ 
+7.	Try running pig in local mode
+Local mode:   (pig -x local)
+
+9. create a txt file as 
+1,2,3,4
+5,6,7,8
+6,4,5,7
+2,3,4,5
+
+10. load in pig grunt
+grunt> a = load '__.txt' as (lines:int);
+
+
+11.dump
+grunt> dump a;
+
+describe:
+grunt> describe a;
+
+13.cross  - create 2 more files as 
+process1.txt 
+2,3
+6,4
+ 
+process2.txt
+3,6,5
+1,2,3
+
+grunt> a= load 'process1.txt' using PigStorage(' , ') as (a1:int , a2:int);
+	
+grunt> b= load 'process2.txt' using PigStorage(' , ') as (b1:int , b2:int,b3:int);
+
+grunt> cross a,b;
+grunt> dump result;
+
+
+
+14. store 
+
+grunt> store result into 'Output' ;
+
+check your ouput folder just created in file explorer
+
+15.create file as :   filters.txt
+
+1,2
+4,8
+5,2
+8,9
+2,3
+5,2
+5,2
+
+grunt> a = load 'filters.txt' using PigStorage(' , ') as (a1:int , a2:int);
+grunt> result = filter a by a2 == 2;
+grunt> dump result;
+
+16. for each loop
+
+create new file
+
+loop.txt
+1,2,3,4
+5,6,7,8
+
+grunt> a = 'loop.txt' using PigStorage(',') as (a1:int , a2:int);
+grunt> result = foreach a generate a1,a2;
+grunt> dump result;
+
+17. group
+names.txt
+
+utkarsha , anuj ,1
+ho , mo ,2
+ao, aa , 3
+no,go, 4
+
+grunt> a = load 'names.txt' using PigStorage(' , ') as (name1:chararray,name2:chararray,id:int);
+grunt> dump a;
+grunt> groupname = group a by name1;
+grunt> dump groupname;
+
+18. Limit
+grunt> result = limit a 2;
+grunt> dump result;
+
+19. Order By
+numbers.txt
+
+1,5,9
+4,2,6
+7,8,9
+2,5,6
+4,7,3
+
+grunt> a = load 'numbers.txt' using PigStorage(' , ') as (a1:int , a2:int, a3:int);
+grunt> result = order a by a1 desc;
+grunt> dump result;
+
+20. Split
+num.txt
+
+3,2
+1,9
+5,3
+2,7
+3,1
+
+grunt> a = load 'num.txt' using PigStorage(' , ') as (a1:int , a2:int);
+grunt> split a into x if a1<=2 , y if a1>2;
+grunt> dump x;
+grunt> dump y;
+
+21. Distinct
+
+num.txt
+3,2
+1,9
+3,2
+2,7
+3,2
+
+grunt> a = load 'num.txt' using PigStorage(' , ') as (a1:int , a2:int);
+grunt> result = distinct a;
+grunt> dump result;
+
+22. Joins
+orders.txt
+
+101,2024-11-08 00:00:00,3,3000
+102,2023-11-25 00:00:00,5,6800
+103,2022-8-9 00:00:00,6,7800
+104,2010-5-22 00:00:00,4,5500
+
+
+customers.txt
+1,utkarsha,22,Mumbai,2000.00
+2,ho,25,Gujrat,1500.00
+3,mo,19,Pune,3400.00
+4,to,24,Nashik,4500.00
+5,ut,20,Jaipur,7800.00
+
+23. self join
+
+grunt> a = load 'customers.txt' using PigStorage(',') as (id:int,name:chararray,age:int,city:chararray,salary:int);
+
+grunt> b = load 'customers.txt' using PigStorage(',') as (id:int,name:chararray,age:int,city:chararray,salary:int);
+
+grunt> result = join a by id, b by id;
+grunt> dump result;
+
+
+24. Inner Join
+
+grunt> a = load 'customers.txt' using PigStorage(',') as (id:int,name:chararray,age:int,city:chararray,salary:int);
+
+grunt> b = load 'orders.txt' using PigStorage(',') as (oid:int,date:chararray,customer_id:int,amt:int);
+
+grunt> c = join a by id, b by customer_id;
+grunt> dump c;
+
+
+25.Outer Join (Left)
+grunt> a = load 'customers.txt' using PigStorage(',') as (id:int,name:chararray,age:int,city:chararray,salary:int);
+
+grunt> b = load 'orders.txt' using PigStorage(',') as (oid:int,date:chararray,customer_id:int,amt:int);
+
+grunt> d = join a by id LEFT, b by customer_id;
+grunt> dump d;
+
+Outer Join (Right)
+
+grunt> d = join a by id Right, b by customer_id;
+grunt> dump d;
+
+Full Outer Join 
+
+grunt> e = join a by id FULL OUTER, b by customer_id;
+grunt> dump e;
+

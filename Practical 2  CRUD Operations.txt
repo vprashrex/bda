@@ -1,0 +1,114 @@
+Practical 2 : CRUD Operations
+1.   Start MongoDB server
+Open C:\Program Files\MongoDB\Server\5.0\bin in cmd - 
+mongo.exe
+mongosh 
+ 
+2. List all the databases in the MongoDB
+db
+ 
+3. Create database name test
+use test
+ 
+4. Create one document with the name courses having fields course name, details with duration and trainer name, course batch size with 3 sizes and quantity of 3 different type and course category 
+db.courses.insert(
+{
+name : "Android",
+details: {
+duration: "3 months",
+trainer : "Kaif"
+},
+batch: [{size: "Small", qty: 10}],
+category: "Web Development"
+}
+)
+ 
+5. Display the details of above record inserted in horizontally and vertically
+db.courses.find()
+
+db.courses.find().pretty()
+
+ 
+6. Insert 4 more records
+db.courses.insertMany([
+{name:"Java",details:{duration:"2 months",trainer:"alina"},batch:[{size:"Large",qtty:30},{size:"Medium",qtty:25}],category:"Programmer"},
+{name:"Laravel",details:{duration:"7 months",trainer:"heta"},batch:[{size:"Large",qtty:30},{size:"Medium",qtty:25},{size:"Samll",qtty:21}],category:"Hardware Programmer"}
+])
+ 
+ 
+7. Count the number of documents in above collection
+db.courses.find().count()
+ 
+8. Display first 2 documents from the above collection
+db.courses.find().limit(2).pretty()
+
+
+
+9. Display rest all documents by skipping first 3 documents
+db.courses.find().skip(3).pretty()
+ 
+10. Display second and third document from the set of first 3 documents
+db.courses.find().skip(1).limit(2).pretty()
+ 
+
+11.  Display the set of documents having course name as “Java”.
+db.courses.find({“name”: “Java”}).pretty()
+ 
+12.  Display course name and category name of all courses.
+db.courses.find({},{name:1,category:1})
+ 
+13.  Display course name and category name of all courses except document id.
+db.courses.find({},{name:1,category:1,_id:0})
+ 
+14.  Display all documents sorted based on course name.
+db.courses.find().sort({name:1})
+ 
+
+For descending order :  db.courses.find().sort({name:-1})
+ 
+15.  Display all courses having batch size as small.
+db.courses.find({"batch.size": "Small"})
+ 
+16. Display the courses having course batch quantity less than or equal to 15.
+db.courses.find({"batch.qty": {$lte:15}})
+ 
+17.   Display the courses having course batch quantity greater than or equal to 25.
+db.courses.find({"batch.qty": {$gte:25}})
+
+ 
+
+
+
+
+
+
+Insert some records
+ 
+18.  Display all courses having course name as MongoDB & Java.
+db.courses.find({"name":{$in:["MongoDB","Java"]}})
+ 
+19.  Display all courses except courses having course name as MongoDB & Java.
+db.courses.find({"name":{$nin:["MongoDB","Java"]}})
+ 
+20. Display all courses having course name as MongoDB and course batch qty equal to 5.
+db.courses.find({$and:[{"name": "MongoDB"},{"batch.qty": 5}]})
+ 
+21.  Display all courses having course name as MongoDB and course batch qty less than equal to 15.
+db.courses.find({$and:[{"name": "MongoDB"},{"batch.qty": {$lte:15}}]}).pretty()
+ 
+22.   Display all documents having course name as MongoDB with batch size small and quantity of the batch should be less than or equal to 15.
+db.courses.find({$and:[{"name": "MongoDB"},{"batch.size": "Small"},{"batch.qty": {$lte:15}}]}).pretty()
+ 
+
+
+
+23. Display a set of documents having course name as MongoDB or course batch quantity greater than equal to 25.
+db.courses.find({$or:[{"name": "MongoDB"},{"batch.qty": {$gte:25}}]}).pretty()
+ 
+24.  Display all courses not having course batch quantity greater than equal to 30.
+db.courses.find({"batch.qty": {$not:{$gte:30}}})
+ 
+25.  Display all courses not having course name as MongoDB.
+db.courses.find({"name":{$not:{$eq: "MongoDB"}}})
+ 
+

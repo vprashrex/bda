@@ -1,0 +1,178 @@
+Practical 5 : MongoDB in Python
+
+ 
+1.	Write python program to create a database with bookdb having collection of books documents with the fields [book_id,book_title,book_author,book_isbn,book_publisher,book_pages,book_price]
+(in mogodb>bin> show dbs;)
+
+ 
+Python Code:
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Creating Database
+db = client["bookdb"]
+#Creating collection
+collection = db["books"]
+print("All databases : ",str(client.list_database_names()))
+#Creating one document
+book1 = {"id":101,
+         "title" : "Life is Awsome",
+         "author" : "Aditya Singh",
+         "isbn" : 450,
+         "publisher" :"Penguins",
+         "pages" : 250,
+         "price" : 850
+        }
+collection.insert_one(book1)
+print("Book Record Inserted")
+ 
+ 
+2.	Insert more records
+Python Code:
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+#Inserting many records
+book_data = [{
+            "id":102,
+            "title" : "Blood Red",
+            "author" : "Karan Shah",
+            "isbn" : 918,
+            "publisher" :"MC Graw Hill",
+            "pages" : 530,
+            "price" : 1050
+            },
+            {
+            "id":103,
+            "title" : "Taarzan",
+            "author" : "Anuj Balmiki",
+            "isbn" : 789,
+            "publisher" :"MIBAAH",
+            "pages" : 654,
+            "price" : 999
+            },		
+            {
+            "id":104,
+            "title" : "Beautiful Eve",
+            "author" : "Mona Das",
+            "isbn" : 112,
+            "publisher" :"Gorilla",
+            "pages" : 250,
+            "price" : 790
+            },
+            {
+            "id":105,
+            "title" : "Shinchan",
+            "author" : "Utkarsha Nagtode",
+            "isbn" : 555,
+            "publisher" :"MIBAAH",
+            "pages" : 100,
+            "price" : 540
+            }]
+collection.insert_many(book_data)
+print("Record(s) Inserted")
+ 
+ 
+ 
+3.	Read all the documents
+#Read
+for i in collection.find():
+    print(i)
+ 
+Display all the details of book having title as Shinchan
+#1
+query1 = {"title" : "Shinchan"}
+result1 = collection.find(query1)
+
+print("Records with title Shinchan are : ")
+for i in result1:
+    print(i)
+ 
+
+Sort all books documents based on title
+#2
+result2 = collection.find().sort("title")
+print("Books sorted in Title : ")
+for i in result2 :
+    print(i)
+ 
+
+Display first 3 documents
+#3
+result3 = collection.find().limit(3)
+print("First 3 documents : ")
+for i in result3 :
+    print(i)
+ 
+
+Display book id, title, pages and prices of all books except book id
+#4
+result4 = collection.find({},{"_id":0,"id":1,"title":1,"author":1,"pages":1,"price":1})
+for i in result4 :
+    print(i)
+ 
+
+Update only one document having book publisher MIBAAH
+#5
+collection.update_one({"publisher":"Uban"},{"$set":{"publisher":"MIBAAH"}})
+print("Record Updated")
+result5 = collection.find({"publisher":"Uban"},{"_id":0,"id":1,"title":1,"publisher":1})
+for i in result5 :
+    print(i)
+ 
+
+(in mongodb cmd)db.books.find({publisher:"MIBAAH"},{_id:0,title:1,publisher:1})
+
+ 
+Update all the documents having book publisher MIBAAH
+ 
+#6
+collection.update_many({"publisher":"MIBAAH"},{"$set":{"price":5000}})
+print("Record(s) Updated")
+result6 = collection.find({"publisher":"MIBAAH"},{"_id":0,"id":1,"title":1,"publisher":1,"price":1})
+for i in result6 :
+    print(i)
+ 
+Count the number of books group by book title
+#7
+# Aggregate query to count books grouped by title
+pipeline = [
+    {"$group": {"_id": "$title", "count": {"$sum": 1}}}
+]
+
+# Execute the aggregation query
+result = collection.aggregate(pipeline)
+
+# Print the result
+for doc in result:
+    print("{}: {}".format(doc['_id'], doc['count']))
+ 
+
+
+
+
+Calculate the total price of all books group by book title
+#8
+# Aggregate query to calculate total price of books grouped by title
+pipeline = [
+    {"$group": {"_id": "$title", "total_price": {"$sum": "$price"}}}
+]
+
+# Execute the aggregation query
+result = collection.aggregate(pipeline)
+
+# Print the result
+for doc in result:
+    print("{}: {}".format(doc['_id'], doc['total_price']))
+
+ 
+
+

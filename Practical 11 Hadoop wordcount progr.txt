@@ -1,0 +1,89 @@
+Practical 11: Hadoop wordcount program in python
+
+
+Note: All files to be created wherever the command prompt opens, or open the command prompt where the files are stored. 
+Note: Start the PowerShell in administrator mode if any issues arise in yarn or namenode since elevated privileges are required in some scenarios.
+
+
+Steps:
+1.	Create a file which will be used for the word count:
+in cmd - type wordcount.txt 
+	and add some contents in it
+ 
+2.	Create the mapper.py file
+type mapper.py / directly in filder
+
+#python code
+import sys
+
+for line in sys.stdin:
+    line = line.strip()
+    words = line.split()
+
+    for word in words:
+        print('%s\t%s' % (word,1))
+
+
+
+3.	Execute the mapper.py and check the output
+(in cmd of the folder having wordcount.txt , mapper.py )  -  type wordcount.txt | python mapper.py
+
+4.	Create the reducer.py and check the output
+#!/usr/bin/env python
+  
+from operator import itemgetter
+import sys
+  
+current_word = None
+current_count = 0
+word = None
+  
+for line in sys.stdin:
+    line = line.strip()
+    word, count = line.split('\t', 1)
+    try:
+        count = int(count)
+    except ValueError:
+        continue
+
+    if current_word == word:
+        current_count += count
+    else:
+        if current_word:
+            print '%s\t%s' % (current_word, current_count)
+        current_count = count
+        current_word = word
+  
+if current_word == word:
+    print '%s\t%s' % (current_word, current_count)
+
+
+
+5.	Check execution of mapper and then reducer to confirm whether everything is working or not
+type wordcount.txt | python mapper.py | sort | python reducer.py
+
+6.	Create a directory hdfs and then copy the wordcount in that folder
+hdfs dfs -mkdir /wordcount
+ 
+hdfs dfs -copyFromLocal wordcount.txt /wordcount
+
+7.	Check the contents of the hdfs
+
+hdfs dfs -ls /
+
+hdfs dfs -ls /wordcount
+
+
+8.	Download the hadoop streaming jar from: https://jar-download.com/artifacts/org.apache.hadoop/hadoop-streaming/2.7.3/source-code
+
+Also place the jar in a folder where the mapper and reducer are placed
+Execute the following command:
+PS C:\Users\prana> hadoop jar hadoop-streaming-2.7.3.jar -input /wordcount/wordcount.txt -output /wordcount/output -mapper /mapper.py -reducer /reducer.py
+
+9.	Check the output by the following command
+hdfs dfs -cat /wordcount/output/part-00000 
+For more details and additional information, refer to the following:
+Lesson 8 MapReduce with python wordcount program
+
+https://www.geeksforgeeks.org/hadoop-streaming-using-python-word-count-problem/
+

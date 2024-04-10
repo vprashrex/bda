@@ -1,0 +1,80 @@
+PRAC 6 casssandra
+
+
+Pre-requisites 
+Java 1.8
+ 
+ Python 2.7
+ 
+  Set-ExecutionPolicy Unrestricted
+cassandra -f
+ 
+ 
+ 
+Open new cmd
+ 
+1.	Keyspace Operations
+Creating a Keyspace
+
+ CREATE KEYSPACE utkarsha WITH replication = {'class' : 'SimpleStrategy' , 'replication_factor':1}
+   ... ;
+
+Verification
+ 
+DESCRIBE keyspaces
+
+Durable_writes: By default, the durable_writes properties of a table is set to true, however it can be set to false.
+ 
+Verification
+SELECT * FROM system_schema.keyspaces;
+ 
+Using a keyspace
+use utkarsha; 
+
+Altering 
+
+ 
+Deleting a keyspace
+DROP KEYSPACE utkarsha;
+DESCRIBE keyspaces;
+ 
+
+2.	Table Operations
+Creating a table
+
+CREATE Table students(id int primary key, name text , marks int , grade text);
+select * from students;
+ 
+ 
+Altering table
+alter table students add remark text;
+select * from students;
+ 
+Dropping Column
+  alter table students drop remark;
+
+CRUD Operations
+Insert
+  INSERT INTO students (id,grade,marks,name) VALUES (101,'O',90,'utkarsha');
+ 
+Update
+UPDATE students SET grade='A' , marks=90 WHERE id=101;
+ 
+Reading required columns
+ select id,name from students;
+
+ SELECT * FROM students WHERE grade='B' ALLOW FILTERING;
+
+ SELECT id,name,grade FROM students WHERE grade='A' ALLOW
+ FILTERING;
+ 
+Deleting data from table
+ DELETE marks from students WHERE id=101;
+
+Deleting an entire row
+DELETE from students WHERE id=102
+            ... ;
+ 
+
+
+

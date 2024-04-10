@@ -1,0 +1,542 @@
+Practical 10: Miscellaneous Exercise 
+
+
+Q1.Write a MongoDB query to display all the documents in the collection restaurants.
+> db.restaurants.find().pretty()
+{
+        "_id" : ObjectId("65b2274b049f583e8231a542"),
+        "address" : {
+                "building" : "1007",
+                "coord" : [
+                        -73.856077,
+                        40.848447
+                ],
+                "street" : "Morris Park Ave",
+                "zipcode" : "10462"
+        },
+        "borough" : "Bronx",
+        "cuisine" : "Bakery",
+        "grades" : [
+                {
+                        "date" : {
+                                "$date" : 1393804800000
+                        },
+                        "grade" : "A",
+                        "score" : 2
+                },
+                {
+                        "date" : {
+                                "$date" : 1378857600000
+                        },
+                        "grade" : "A",
+                        "score" : 6
+                },
+                {
+                        "date" : {
+                                "$date" : 1358985600000
+                        },
+                        "grade" : "A",
+                        "score" : 10
+                },
+                {
+                        "date" : {
+                                "$date" : 1322006400000
+                        },
+                        "grade" : "A",
+                        "score" : 9
+                },
+                {
+                        "date" : {
+                                "$date" : 1299715200000
+                        },
+                        "grade" : "B",
+                        "score" : 14
+                }
+        ],
+        "name" : "Morris Park Bake Shop",
+        "restaurant_id" : "30075445"
+}
+{
+        "_id" : ObjectId("65b2274b049f583e8231a543"),
+        "address" : {
+                "building" : "469",
+                "coord" : [
+                        -73.961704,
+                        40.662942
+                ],
+                "street" : "Flatbush Avenue",
+                "zipcode" : "11225"
+        },
+        "borough" : "Brooklyn",
+        "cuisine" : "Hamburgers",
+        "grades" : [
+                {
+                        "date" : {
+                                "$date" : 1419897600000
+                        },
+                        "grade" : "A",
+                        "score" : 8
+                },
+                {
+                        "date" : {
+                                "$date" : 1404172800000
+                        },
+                        "grade" : "B",
+                        "score" : 23
+                },
+                {
+                        "date" : {
+                                "$date" : 1367280000000
+                        },
+                        "grade" : "A",
+                        "score" : 12
+                },
+                {
+                        "date" : {
+                                "$date" : 1336435200000
+                        },
+                        "grade" : "A",
+                        "score" : 12
+                }
+        ],
+        "name" : "Wendy'S",
+        "restaurant_id" : "30112340"
+}
+{
+        "_id" : ObjectId("65b2274b049f583e8231a544"),
+        "address" : {
+                "building" : "351",
+                "coord" : [
+                        -73.98513559999999,
+                        40.7676919
+                ],
+                "street" : "West   57 Street",
+                "zipcode" : "10019"
+        },
+        "borough" : "Manhattan",
+        "cuisine" : "Irish",
+        "grades" : [
+                {
+                        "date" : {
+                                "$date" : 1409961600000
+                        },
+                        "grade" : "A",
+                        "score" : 2
+                },
+                {
+                        "date" : {
+                                "$date" : 1374451200000
+                        },
+                        "grade" : "A",
+                        "score" : 11
+                },
+                {
+                        "date" : {
+                                "$date" : 1343692800000
+                        },
+                        "grade" : "A",
+                        "score" : 12
+                },
+                {
+                        "date" : {
+                                "$date" : 1325116800000
+                        },
+                        "grade" : "A",
+                        "score" : 12
+                }
+        ],
+
+Q2.Write a MongoDB query to display the fields restaurant_id, name, borough and cuisine for all the documents in the collection restaurant.
+> db.restaurants.find({}, {"restaurant_id": 1, "name": 1, "borough": 1, "cuisine": 1}).pretty()
+{
+        "_id" : ObjectId("65b2274b049f583e8231a542"),
+        "borough" : "Bronx",
+        "cuisine" : "Bakery",
+        "name" : "Morris Park Bake Shop",
+        "restaurant_id" : "30075445"
+}
+{
+        "_id" : ObjectId("65b2274b049f583e8231a543"),
+        "borough" : "Brooklyn",
+        "cuisine" : "Hamburgers",
+        "name" : "Wendy'S",
+        "restaurant_id" : "30112340"
+}
+{
+        "_id" : ObjectId("65b2274b049f583e8231a544"),
+        "borough" : "Manhattan",
+        "cuisine" : "Irish",
+        "name" : "Dj Reynolds Pub And Restaurant",
+        "restaurant_id" : "30191841"
+}
+{
+        "_id" : ObjectId("65b2274b049f583e8231a545"),
+        "borough" : "Brooklyn",
+        "cuisine" : "American ",
+        "name" : "Riviera Caterer",
+        "restaurant_id" : "40356018"
+}
+{
+        "_id" : ObjectId("65b2274b049f583e8231a546"),
+        "borough" : "Queens",
+        "cuisine" : "Jewish/Kosher",
+        "name" : "Tov Kosher Kitchen",
+        "restaurant_id" : "40356068"
+}
+
+Q3.  Write a MongoDB query to display the fields restaurant_id, name, borough and cuisine, but exclude the field _id for all the documents in the collection restaurant.
+> db.restaurants.find({}, {"restaurant_id": 1, "name": 1, "borough": 1, "cuisine": 1, _id: 0}).pretty()
+{
+        "borough" : "Bronx",
+        "cuisine" : "Bakery",
+        "name" : "Morris Park Bake Shop",
+        "restaurant_id" : "30075445"
+}
+{
+        "borough" : "Brooklyn",
+        "cuisine" : "Hamburgers",
+        "name" : "Wendy'S",
+        "restaurant_id" : "30112340"
+}
+{
+        "borough" : "Manhattan",
+        "cuisine" : "Irish",
+        "name" : "Dj Reynolds Pub And Restaurant",
+        "restaurant_id" : "30191841"
+}
+{
+        "borough" : "Brooklyn",
+        "cuisine" : "American ",
+        "name" : "Riviera Caterer",
+        "restaurant_id" : "40356018"
+}
+
+Q4.  Write a MongoDB query to display the fields restaurant_id, name, borough and zip code, but exclude the field _id for all the documents in the collection restaurant.
+> db.restaurants.find({}, {"restaurant_id": 1, "name": 1, "borough": 1, "address.zipcode": 1, _id: 0}).pretty()
+{
+        "address" : {
+                "zipcode" : "10462"
+        },
+        "borough" : "Bronx",
+        "name" : "Morris Park Bake Shop",
+        "restaurant_id" : "30075445"
+}
+{
+        "address" : {
+                "zipcode" : "11225"
+        },
+        "borough" : "Brooklyn",
+        "name" : "Wendy'S",
+        "restaurant_id" : "30112340"
+}
+{
+        "address" : {
+                "zipcode" : "10019"
+        },
+        "borough" : "Manhattan",
+        "name" : "Dj Reynolds Pub And Restaurant",
+        "restaurant_id" : "30191841"
+}
+
+Q5. Write a MongoDB query to display all the restaurants which are in the borough Bronx.
+> db.restaurants.find({}, {"name": 1, "borough": "Bronx", _id:0}).pretty()
+{ "name" : "Morris Park Bake Shop", "borough" : "Bronx" }
+{ "name" : "Wendy'S", "borough" : "Bronx" }
+{ "name" : "Dj Reynolds Pub And Restaurant", "borough" : "Bronx" }
+{ "name" : "Riviera Caterer", "borough" : "Bronx" }
+{ "name" : "Tov Kosher Kitchen", "borough" : "Bronx" }
+{ "name" : "Brunos On The Boulevard", "borough" : "Bronx" }
+{ "name" : "Kosher Island", "borough" : "Bronx" }
+{ "name" : "Wilken'S Fine Food", "borough" : "Bronx" }
+{ "name" : "Regina Caterers", "borough" : "Bronx" }
+{ "name" : "Taste The Tropics Ice Cream", "borough" : "Bronx" }
+{ "name" : "Wild Asia", "borough" : "Bronx" }
+{ "name" : "C & C Catering Service", "borough" : "Bronx" }
+{ "name" : "May May Kitchen", "borough" : "Bronx" }
+{ "name" : "1 East 66Th Street Kitchen", "borough" : "Bronx" }
+{ "name" : "Seuda Foods", "borough" : "Bronx" }
+{ "name" : "Carvel Ice Cream", "borough" : "Bronx" }
+{ "name" : "Carvel Ice Cream", "borough" : "Bronx" }
+{ "name" : "Nordic Delicacies", "borough" : "Bronx" }
+{ "name" : "Glorious Food", "borough" : "Bronx" }
+{ "name" : "The Movable Feast", "borough" : "Bronx" }
+
+Q6. Write a MongoDB query to display the first 5 restaurants which are in the borough Bronx.
+> db.restaurants.find({"borough": "Bronx"}, {"name": 1, _id: 0}).pretty().limit(5)
+{ "name" : "Morris Park Bake Shop" }
+{ "name" : "Wild Asia" }
+{ "name" : "Carvel Ice Cream" }
+{ "name" : "Happy Garden" }
+{ "name" : "Happy Garden" }
+
+Q7.Write a MongoDB query to display the next 5 restaurants after skipping first 5 which are in the borough Bronx.
+> db.restaurants.find({"borough": "Bronx"}, {"name": 1, _id: 0}).pretty().limit(5).skip(5)
+{ "name" : "Manhem Club" }
+{ "name" : "The New Starling Athletic Club Of The Bronx" }
+
+Q8. Write a MongoDB query to find the restaurants who achieved a score more than 10.
+> db.restaurants.find({"grades.score": {$gt: 10}}, {"name": 1, _id: 0}).pretty()
+{ "name" : "Morris Park Bake Shop" }
+{ "name" : "Wendy'S" }
+{ "name" : "Dj Reynolds Pub And Restaurant" }
+{ "name" : "Riviera Caterer" }
+{ "name" : "Tov Kosher Kitchen" }
+{ "name" : "Brunos On The Boulevard" }
+{ "name" : "Kosher Island" }
+{ "name" : "Wilken'S Fine Food" }
+{ "name" : "Regina Caterers" }
+{ "name" : "Taste The Tropics Ice Cream" }
+{ "name" : "Wild Asia" }
+{ "name" : "May May Kitchen" }
+{ "name" : "Seuda Foods" }
+
+Q9. Write a MongoDB query to find the restaurants that achieved a score, more than 20 but less than 50.
+> db.restaurants.find({"grades.score": {$gt: 20}, "grades.score": {$lt: 50}}, {"name": 1, _id: 0}).pretty()
+{ "name" : "Morris Park Bake Shop" }
+{ "name" : "Wendy'S" }
+{ "name" : "Dj Reynolds Pub And Restaurant" }
+{ "name" : "Riviera Caterer" }
+{ "name" : "Tov Kosher Kitchen" }
+{ "name" : "Brunos On The Boulevard" }
+{ "name" : "Kosher Island" }
+{ "name" : "Wilken'S Fine Food" }
+{ "name" : "Regina Caterers" }
+{ "name" : "Taste The Tropics Ice Cream" }
+{ "name" : "Wild Asia" }
+{ "name" : "C & C Catering Service" }
+{ "name" : "May May Kitchen" }
+{ "name" : "1 East 66Th Street Kitchen" }
+
+Q10 Write a MongoDB query to find the restaurants which are located in latitude values less than 95.754168.
+> db.restaurants.find({"address.coord": {$lte : 95.754168}}, {_id:0, "name":1, "address.coord":1}).pretty()
+{
+        "address" : {
+                "coord" : [
+                        -73.856077,
+                        40.848447
+                ]
+        },
+        "name" : "Morris Park Bake Shop"
+}
+{
+        "address" : {
+                "coord" : [
+                        -73.961704,
+                        40.662942
+                ]
+        },
+        "name" : "Wendy'S"
+}
+{
+        "address" : {
+                "coord" : [
+                        -73.98513559999999,
+                        40.7676919
+                ]
+        },
+        "name" : "Dj Reynolds Pub And Restaurant"
+}
+{
+        "address" : {
+                "coord" : [
+                        -73.98241999999999,
+                        40.579505
+                ]
+        },
+        "name" : "Riviera Caterer"
+}
+{
+        "address" : {
+                "coord" : [
+                        -73.8601152,
+                        40.7311739
+                ]
+        },
+        "name" : "Tov Kosher Kitchen"
+}
+{
+        "address" : {
+                "coord" : [
+                        -73.8803827,
+                        40.7643124
+                ]
+        },
+        "name" : "Brunos On The Boulevard"
+}
+
+Q11. Write a MongoDB query to find the restaurants that do not prepare any cuisine of 'American' and their grade score more than 70 and latitude less than -65.754168.
+> db.restaurants.find({"cuisine": {$ne: "American"}, "grades.score": {$gt: 7}, "address.coord": {$lt: -63.754168}},{_id:0, "name": 1, "cuisine": 1, "address.coord": 1, "grades.score": 1}).pretty()
+{
+        "address" : {
+                "coord" : [
+                        -73.856077,
+                        40.848447
+                ]
+        },
+        "cuisine" : "Bakery",
+        "grades" : [
+                {
+                        "score" : 2
+                },
+                {
+                        "score" : 6
+                },
+                {
+                        "score" : 10
+                },
+                {
+                        "score" : 9
+                },
+                {
+                        "score" : 14
+                }
+        ],
+        "name" : "Morris Park Bake Shop"
+}
+{
+        "address" : {
+                "coord" : [
+                        -73.961704,
+                        40.662942
+                ]
+        },
+        "cuisine" : "Hamburgers",
+        "grades" : [
+                {
+                        "score" : 8
+                },
+                {
+                        "score" : 23
+                },
+                {
+                        "score" : 12
+                },
+                {
+                        "score" : 12
+                }
+        ],
+        "name" : "Wendy'S"
+}
+{
+        "address" : {
+                "coord" : [
+                        -73.98513559999999,
+                        40.7676919
+                ]
+        },
+        "cuisine" : "Irish",
+        "grades" : [
+                {
+                        "score" : 2
+                },
+                {
+                        "score" : 11
+                },
+                {
+                        "score" : 12
+                },
+                {
+                        "score" : 12
+                }
+        ],
+        "name" : "Dj Reynolds Pub And Restaurant"
+}
+
+Q12. Write a MongoDB query to find the restaurants which do not prepare any cuisine of 'American' and achieved a score more than 70 and located in the longitude less than -65.754168.
+> db.restaurants.find({"cuisine": {$ne: "American"}, "grades.score": {$gt: 7}, "address.coord": {$lt: -65.754168}},{_id:0, "name": 1, "cuisine": 1, "address.coord": 1})
+{ "address" : { "coord" : [ -73.856077, 40.848447 ] }, "cuisine" : "Bakery", "name" : "Morris Park Bake Shop" }
+{ "address" : { "coord" : [ -73.961704, 40.662942 ] }, "cuisine" : "Hamburgers", "name" : "Wendy'S" }
+{ "address" : { "coord" : [ -73.98513559999999, 40.7676919 ] }, "cuisine" : "Irish", "name" : "Dj Reynolds Pub And Restaurant" }
+
+Q13. Write a MongoDB query to find the restaurants which do not prepare any cuisine of 'American' and achieved a grade point 'A' not belonging to the borough Brooklyn. The document must be displayed according to the cuisine in descending order.
+> db.restaurants.find({"cuisine": {$ne: "American"}, "grades.grade": "A", "borough": {$ne: "Brooklyn"}}, {_id:0,"name":1, "cusine":1, "grades.grade": 1, "borough":1}).sort({"cuisine":-1})
+{ "borough" : "Manhattan", "grades" : [ { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" } ], "name" : "The Country Cafe" }
+{ "borough" : "Manhattan", "grades" : [ { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" } ], "name" : "Donohue'S Steak House" }
+{ "borough" : "Manhattan", "grades" : [ { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" } ], "name" : "Spain Restaurant & Bar" }
+{ "borough" : "Manhattan", "grades" : [ { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" } ], "name" : "Lexler Deli" }
+{ "borough" : "Queens", "grades" : [ { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" }, { "grade" : "A" } ], "name" : "New Park Pizzeria & Restaurant" }
+
+Q14. . Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which contain 'Wil' as first three letters for its name.
+> db.restaurants.find({"name": {$regex: "^Wil"}},{"restaurant_id":1, "name":1, "borough":1, "cuisine":1, _id:0})
+{ "borough" : "Brooklyn", "cuisine" : "Delicatessen", "name" : "Wilken'S Fine Food", "restaurant_id" : "40356483" }
+{ "borough" : "Bronx", "cuisine" : "American ", "name" : "Wild Asia", "restaurant_id" : "40357217" }
+
+Q15.  Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which contain 'ces' as last three letters for its name
+> db.restaurants.find({"name": {$regex: "den$"}},{"restaurant_id":1, "name":1, "borough":1, "cuisine":1, _id:0})
+{ "borough" : "Bronx", "cuisine" : "Chinese", "name" : "Happy Garden", "restaurant_id" : "40363289" }
+{ "borough" : "Bronx", "cuisine" : "Chinese", "name" : "Happy Garden", "restaurant_id" : "40364296" }
+
+Q16. Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which contain 'Reg' as three letters somewhere in its name.
+> db.restaurants.find({"name": {$regex: /.*gel*./}},{"restaurant_id":1, "name":1, "borough":1, "cuisine":1, _id:0})
+{ "borough" : "Manhattan", "cuisine" : "American ", "name" : "Angelika Film Center", "restaurant_id" : "40362274" }
+{ "borough" : "Staten Island", "cuisine" : "Delicatessen", "name" : "Bagels N Buns", "restaurant_id" : "40363427" }
+{ "borough" : "Queens", "cuisine" : "Bagels/Pretzels", "name" : "Hot Bagels", "restaurant_id" : "40363565" }
+{ "borough" : "Brooklyn", "cuisine" : "Jewish/Kosher", "name" : "Kosher Bagel Hole", "restaurant_id" : "40364220" }
+{ "borough" : "Staten Island", "cuisine" : "Delicatessen", "name" : "Plaza Bagels & Deli", "restaurant_id" : "40364286" }
+
+Q17.  Write a MongoDB query to find the restaurants which belong to the borough Bronx and prepare either American or Chinese dishes.
+> db.restaurants.find({"cuisine": {$in: ["American", "Chinese"]}, "borough": "Bronx"},{_id:0, "name":1,"cuisine":1,"borough":1})
+{ "borough" : "Bronx", "cuisine" : "Chinese", "name" : "Happy Garden" }
+{ "borough" : "Bronx", "cuisine" : "Chinese", "name" : "Happy Garden" }
+
+Q18. Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which belong to the borough Staten Island or Queens or Bronx or Brooklyn.
+> db.restaurants.find({"borough": {$in: ["Staten Island", "Queens", "Bronx", "Brooklyn"]}},{"restaurant_id":1, "name":1, "cuisine":1, "borough":1, _id:0})
+{ "borough" : "Bronx", "cuisine" : "Bakery", "name" : "Morris Park Bake Shop", "restaurant_id" : "30075445" }
+{ "borough" : "Brooklyn", "cuisine" : "Hamburgers", "name" : "Wendy'S", "restaurant_id" : "30112340" }
+{ "borough" : "Brooklyn", "cuisine" : "American ", "name" : "Riviera Caterer", "restaurant_id" : "40356018" }
+{ "borough" : "Queens", "cuisine" : "Jewish/Kosher", "name" : "Tov Kosher Kitchen", "restaurant_id" : "40356068" }
+{ "borough" : "Queens", "cuisine" : "American ", "name" : "Brunos On The Boulevard", "restaurant_id" : "40356151" }
+{ "borough" : "Staten Island", "cuisine" : "Jewish/Kosher", "name" : "Kosher Island", "restaurant_id" : "40356442" }
+
+Q19. Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which are not belonging to the borough Staten Island or Queens or Bronx or Brooklyn.
+> db.restaurants.find({"borough": {$nin: ["Staten Island", "Queens", "Bronx", "Brooklyn"]}},{"restaurant_id":1, "name":1, "cuisine":1, "borough":1, _id:0})
+{ "borough" : "Manhattan", "cuisine" : "Irish", "name" : "Dj Reynolds Pub And Restaurant", "restaurant_id" : "30191841" }
+{ "borough" : "Manhattan", "cuisine" : "American ", "name" : "1 East 66Th Street Kitchen", "restaurant_id" : "40359480" }
+{ "borough" : "Manhattan", "cuisine" : "American ", "name" : "Glorious Food", "restaurant_id" : "40361521" }
+{ "borough" : "Manhattan", "cuisine" : "Delicatessen", "name" : "Bully'S Deli", "restaurant_id" : "40361708" }
+{ "borough" : "Manhattan", "cuisine" : "Chicken", "name" : "Harriet'S Kitchen", "restaurant_id" : "40362098" }
+{ "borough" : "Manhattan", "cuisine" : "American ", "name" : "P & S Deli Grocery", "restaurant_id" : "40362264" }
+
+Q20.  Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which achieved a score which is not more than 10.
+> db.restaurants.find({"grades.score": {$lte: 10}},{"restaurant_id":1, "name":1, "cuisine":1, "borough":1, _id:0})
+{ "borough" : "Bronx", "cuisine" : "Bakery", "name" : "Morris Park Bake Shop", "restaurant_id" : "30075445" }
+{ "borough" : "Brooklyn", "cuisine" : "Hamburgers", "name" : "Wendy'S", "restaurant_id" : "30112340" }
+{ "borough" : "Manhattan", "cuisine" : "Irish", "name" : "Dj Reynolds Pub And Restaurant", "restaurant_id" : "30191841" }
+{ "borough" : "Brooklyn", "cuisine" : "American ", "name" : "Riviera Caterer", "restaurant_id" : "40356018" }
+{ "borough" : "Queens", "cuisine" : "American ", "name" : "Brunos On The Boulevard", "restaurant_id" : "40356151" }
+{ "borough" : "Staten Island", "cuisine" : "Jewish/Kosher", "name" : "Kosher Island", "restaurant_id" : "40356442" }
+
+Q21. Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which prepared dishes except 'American' and 'Chinese' or the restaurant's name begins with letter 'Wil'.
+> db.restaurants.find({$or: [{"cuisine": {$nin: ["American", "Chinese"]}, "name": {$regex: "^Wil"}}]},{"restaurant_id":1, "name":1,"borough":1, "cuisine":1, _id:0})
+{ "borough" : "Brooklyn", "cuisine" : "Delicatessen", "name" : "Wilken'S Fine Food", "restaurant_id" : "40356483" }
+{ "borough" : "Bronx", "cuisine" : "American ", "name" : "Wild Asia", "restaurant_id" : "40357217" }
+
+Q22.  Write a MongoDB query to find the restaurant Id, name, and grades for those restaurants which achieved a grade of "A" and scored 11 on an ISODate "2014-08-11T00:00:00Z" among many of survey dates..
+> db.restaurants.find({"grades.grade":"A", "grades.score": 10},{_id:0, "name":1, "grades.grade":1, "grades.score":1})
+{ "grades" : [ { "grade" : "A", "score" : 2 }, { "grade" : "A", "score" : 6 }, { "grade" : "A", "score" : 10 }, { "grade" : "A", "score" : 9 }, { "grade" : "B", "score" : 14 } ], "name" : "Morris Park Bake Shop" }
+{ "grades" : [ { "grade" : "Z", "score" : 38 }, { "grade" : "A", "score" : 10 }, { "grade" : "A", "score" : 7 }, { "grade" : "A", "score" : 13 } ], "name" : "Brunos On The Boulevard" }
+{ "grades" : [ { "grade" : "A", "score" : 10 }, { "grade" : "A", "score" : 10 }, { "grade" : "A", "score" : 8 }, { "grade" : "A", "score" : 10 }, { "grade" : "A", "score" : 13 }, { "grade" : "A", "score" : 9 } ], "name" : "Wilken'S Fine Food" }
+{ "grades" : [ { "grade" : "A", "score" : 9 }, { "grade" : "A", "score" : 10 }, { "grade" : "A", "score" : 13 } ], "name" : "Carvel Ice Cream" }
+
+Q23 Write a MongoDB query to find the restaurant Id, name and grades for those restaurants where the 2nd element of grades array contains a grade of "A" and score 9 on an ISODate "2014-08-11T00:00:00Z".
+> db.restaurants.find({"grades.1.grade":"A","grades.1.score" : 9},{"restaurant_id" : 1,"name":1,"grades":1});
+{ "_id" : ObjectId("65bf2deb3a01015e1f4d7445"), "grades" : [ { "date" : { "$date" : 1408147200000 }, "grade" : "A", "score" : 12 }, { "date" : { "$date" : 1377561600000 }, "grade" : "A", "score" : 9 }, { "date" : { "$date" : 1348099200000 }, "grade" : "A", "score" : 7 }, { "date" : { "$date" : 1317254400000 }, "grade" : "A", "score" : 10 } ], "name" : "Sal'S Deli", "restaurant_id" : "40361618" }
+{ "_id" : ObjectId("65bf2deb3a01015e1f4d7449"), "grades" : [ { "date" : { "$date" : 1410480000000 }, "grade" : "B", "score" : 26 }, { "date" : { "$date" : 1377648000000 }, "grade" : "A", "score" : 9 }, { "date" : { "$date" : 1364169600000 }, "grade" : "B", "score" : 20 }, { "date" : { "$date" : 1329177600000 }, "grade" : "A", "score" : 12 } ], "name" : "P & S Deli Grocery", "restaurant_id" : "40362264" }
+
+Q24. Write a MongoDB query to find the restaurant Id, name, address and geographical location for those restaurants where 2nd element of the coord array contains a value which is more than 42 and upto 52..
+> db.restaurants.find({"address.coord.1": {$gt: 40, $lte: 52}},{_id:0, "restaurant_id":1, "name":1, "address":1})
+{ "address" : { "building" : "1007", "coord" : [ -73.856077, 40.848447 ], "street" : "Morris Park Ave", "zipcode" : "10462" }, "name" : "Morris Park Bake Shop", "restaurant_id" : "30075445" }
+{ "address" : { "building" : "469", "coord" : [ -73.961704, 40.662942 ], "street" : "Flatbush Avenue", "zipcode" : "11225" }, "name" : "Wendy'S", "restaurant_id" : "30112340" }
+{ "address" : { "building" : "351", "coord" : [ -73.98513559999999, 40.7676919 ], "street" : "West   57 Street", "zipcode" : "10019" }, "name" : "Dj Reynolds Pub And Restaurant", "restaurant_id" : "30191841" }
+{ "address" : { "building" : "2780", "coord" : [ -73.98241999999999, 40.579505 ], "street" : "Stillwell Avenue", "zipcode" : "11224" }, "name" : "Riviera Caterer", "restaurant_id" : "40356018" }
+
+Q25.  Write a MongoDB query to arrange the name of the restaurants in ascending order along with all the columns.
+> db.restaurants.find({},{_id:0}).sort({"name":1})
+{ "address" : { "building" : "1", "coord" : [ -73.96926909999999, 40.7685235 ], "street" : "East   66 Street", "zipcode" : "10065" }, "borough" : "Manhattan", "cuisine" : "American ", "grades" : [ { "date" : { "$date" : 1399420800000 }, "grade" : "A", "score" : 3 }, { "date" : { "$date" : 1367539200000 }, "grade" : "A", "score" : 4 }, { "date" : { "$date" : 1335744000000 }, "grade" : "A", "score" : 6 }, { "date" : { "$date" : 1324944000000 }, "grade" : "A", "score" : 0 } ], "name" : "1 East 66Th Street Kitchen", "restaurant_id" : "40359480" }
+{ "address" : { "building" : "21", "coord" : [ -73.9774394, 40.7604522 ], "street" : "West   52 Street", "zipcode" : "10019" }, "borough" : "Manhattan", "cuisine" : "American ", "grades" : [ { "date" : { "$date" : 1400025600000 }, "grade" : "A", "score" : 12 }, { "date" : { "$date" : 1376352000000 }, "grade" : "A", "score" : 12 }, { "date" : { "$date" : 1333497600000 }, "grade" : "A", "score" : 12 } ], "name" : "21 Club", "restaurant_id" : "40364362" }
+{ "address" : { "building" : "108", "coord" : [ -73.98146, 40.7250067 ], "street" : "Avenue B", "zipcode" : "10009" }, "borough" : "Manhattan", "cuisine" : "American ", "grades" : [ { "date" : { "$date" : 1405296000000 }, "grade" : "B", "score" : 17 }, { "date" : { "$date" : 1388448000000 }, "grade" : "A", "score" : 12 }, { "date" : { "$date" : 1350864000000 }, "grade" : "A", "score" : 12 }, { "date" : { "$date" : 1336348800000 }, "grade" : "A", "score" : 13 }, { "date" : { "$date" : 1318550400000 }, "grade" : "A", "score" : 12 } ], "name" : "7B Bar", "restaurant_id" : "40364518" }
+{ "address" : { "building" : "18", "coord" : [ -73.996984, 40.72589 ], "street" : "West Houston Street", "zipcode" : "10012" }, "borough" : "Manhattan", "cuisine" : "American ", "grades" : [ { "date" : { "$date" : 1396483200000 }, "grade" : "A", "score" : 9 }, { "date" : { "$date" : 1365120000000 }, "grade" : "A", "score" : 4 }, { "date" : { "$date" : 1332288000000 }, "grade" : "A", "score" : 13 }, { "date" : { "$date" : 1303862400000 }, "grade" : "A", "score" : 5 } ], "name" : "Angelika Film Center", "restaurant_id" : "40362274" }
+{ "address" : { "building" : "146", "coord" : [ -73.9973041, 40.7188698 ], "street" : "Mulberry Street", "zipcode" : "10013" }, "borough" : "Manhattan", "cuisine" : "Italian", "grades" : [ { "date" : { "$date" : 1398988800000 }, "grade" : "A", "score" : 11 }, { "date" : { "$date" : 
+…
+
+
