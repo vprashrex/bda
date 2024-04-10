@@ -1,9 +1,7 @@
 Practical 5 : MongoDB in Python
-
  
 1.	Write python program to create a database with bookdb having collection of books documents with the fields [book_id,book_title,book_author,book_isbn,book_publisher,book_pages,book_price]
 (in mogodb>bin> show dbs;)
-
  
 Python Code:
 from pymongo import MongoClient
@@ -27,7 +25,8 @@ book1 = {"id":101,
         }
 collection.insert_one(book1)
 print("Book Record Inserted")
- 
+
+----------------------------------------------------------------------------------
  
 2.	Insert more records
 Python Code:
@@ -80,6 +79,7 @@ book_data = [{
 collection.insert_many(book_data)
 print("Record(s) Inserted")
  
+----------------------------------------------------------------------------------
  
  
 3.	Read all the documents
@@ -115,7 +115,8 @@ result1 = collection.find(query1)
 
 for i in result1:
     print(i)
- 
+
+----------------------------------------------------------------------------------
 
 Sort all books documents based on title
 #2
@@ -135,6 +136,8 @@ print("Books sorted in Title : ")
 for i in result2 :
     print(i)
  
+----------------------------------------------------------------------------------
+
 
 Display first 3 documents
 #3
@@ -154,6 +157,8 @@ print("First 3 documents : ")
 for i in result3 :
     print(i)
  
+----------------------------------------------------------------------------------
+
 
 Display book id, title, pages and prices of all books except book id
 #4
@@ -171,7 +176,9 @@ collection= db["books"]
 result4 = collection.find({},{"_id":0,"id":1,"title":1,"author":1,"pages":1,"price":1})
 for i in result4 :
     print(i)
- 
+
+----------------------------------------------------------------------------------
+
 
 Update only one document having book publisher MIBAAH
 #5
@@ -192,10 +199,13 @@ result5 = collection.find({"publisher":"Uban"},{"_id":0,"id":1,"title":1,"publis
 for i in result5 :
     print(i)
  
+------------------------TERMINAL--------------------------------------------
 
-(in mongodb cmd)db.books.find({publisher:"MIBAAH"},{_id:0,title:1,publisher:1})
+# now this command in mongodb sh
+db.books.find({publisher:"MIBAAH"},{_id:0,title:1,publisher:1})
 
- 
+----------------------------------------------------------------------------------
+
 Update all the documents having book publisher MIBAAH
  
 #6
@@ -215,6 +225,8 @@ print("Record(s) Updated")
 result6 = collection.find({"publisher":"MIBAAH"},{"_id":0,"id":1,"title":1,"publisher":1,"price":1})
 for i in result6 :
     print(i)
+
+----------------------------------------------------------------------------------
  
 Count the number of books group by book title
 #7
@@ -239,7 +251,9 @@ result = collection.aggregate(pipeline)
 # Print the result
 for doc in result:
     print("{}: {}".format(doc['_id'], doc['count']))
- 
+
+----------------------------------------------------------------------------------
+
 
 Calculate the total price of all books group by book title
 #8
