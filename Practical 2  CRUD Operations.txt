@@ -52,7 +52,7 @@ db.courses.find().skip(1).limit(2).pretty()
  
 
 11.  Display the set of documents having course name as “Java”.
-db.courses.find({“name”: “Java”}).pretty()
+db.courses.find({"name": "Java"}).pretty()
  
 12.  Display course name and category name of all courses.
 db.courses.find({},{name:1,category:1})
