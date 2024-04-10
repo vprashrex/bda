@@ -99,16 +99,37 @@ for i in collection.find():
  
 Display all the details of book having title as Shinchan
 #1
+#Read
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+
 query1 = {"title" : "Shinchan"}
 result1 = collection.find(query1)
 
-print("Records with title Shinchan are : ")
 for i in result1:
     print(i)
  
 
 Sort all books documents based on title
 #2
+#Read
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+
 result2 = collection.find().sort("title")
 print("Books sorted in Title : ")
 for i in result2 :
@@ -117,6 +138,17 @@ for i in result2 :
 
 Display first 3 documents
 #3
+#Read
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+
 result3 = collection.find().limit(3)
 print("First 3 documents : ")
 for i in result3 :
@@ -125,6 +157,17 @@ for i in result3 :
 
 Display book id, title, pages and prices of all books except book id
 #4
+#Read
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+
 result4 = collection.find({},{"_id":0,"id":1,"title":1,"author":1,"pages":1,"price":1})
 for i in result4 :
     print(i)
@@ -132,6 +175,17 @@ for i in result4 :
 
 Update only one document having book publisher MIBAAH
 #5
+#Read
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+
 collection.update_one({"publisher":"Uban"},{"$set":{"publisher":"MIBAAH"}})
 print("Record Updated")
 result5 = collection.find({"publisher":"Uban"},{"_id":0,"id":1,"title":1,"publisher":1})
@@ -145,6 +199,17 @@ for i in result5 :
 Update all the documents having book publisher MIBAAH
  
 #6
+#Read
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+
 collection.update_many({"publisher":"MIBAAH"},{"$set":{"price":5000}})
 print("Record(s) Updated")
 result6 = collection.find({"publisher":"MIBAAH"},{"_id":0,"id":1,"title":1,"publisher":1,"price":1})
@@ -153,7 +218,17 @@ for i in result6 :
  
 Count the number of books group by book title
 #7
-# Aggregate query to count books grouped by title
+#Read
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+
 pipeline = [
     {"$group": {"_id": "$title", "count": {"$sum": 1}}}
 ]
@@ -166,11 +241,19 @@ for doc in result:
     print("{}: {}".format(doc['_id'], doc['count']))
  
 
-
-
-
 Calculate the total price of all books group by book title
 #8
+#Read
+from pymongo import MongoClient
+import pymongo
+#Creating Connection
+client = MongoClient("mongodb://127.0.0.1:27017")
+print("Connection Created")
+#Retrieve the database
+db = client["bookdb"]
+#Retrieve Collection
+collection= db["books"]
+
 # Aggregate query to calculate total price of books grouped by title
 pipeline = [
     {"$group": {"_id": "$title", "total_price": {"$sum": "$price"}}}
@@ -182,7 +265,3 @@ result = collection.aggregate(pipeline)
 # Print the result
 for doc in result:
     print("{}: {}".format(doc['_id'], doc['total_price']))
-
- 
-
-
