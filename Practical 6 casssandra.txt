@@ -1,12 +1,11 @@
 PRAC 6 casssandra
 
-
 Pre-requisites 
 Java 1.8
  
- Python 2.7
+Python 2.7 (https://www.python.org/ftp/python/2.7/python-2.7.amd64.msi)
  
-  Set-ExecutionPolicy Unrestricted
+Set-ExecutionPolicy Unrestricted
 
  
 go to folder cassandra/bin
