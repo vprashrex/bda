@@ -1,0 +1,25 @@
+------------------------------------
+practical 4-a  restful even oddd
+--------------------------------------
+@PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    @Path("/evenOdd")
+    public String EvenOddCheck(String content) {
+        int num = Integer.parseInt(content);
+        if (num %2 == 0){
+            return "Even";
+        }
+        else
+        {
+            return "odd";
+        }
+    }
+--------------------------------------------------------
+restful2.NewJerseyClient client = new restful2.NewJerseyClient();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter number : ");
+        String s = sc.next();
+        String res = client.EvenOddCheck(s);
+        System.out.println(res);
+
+

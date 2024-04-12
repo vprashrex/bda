@@ -1,0 +1,26 @@
+-------------------------------------------------------
+prcatical 3- RESTful----lowercase to uppercase and vice versa
+--------------------------------------------------------
+
+@PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    @Path("/uppercase")
+    public String upperCase(String content) {
+        return content.toUpperCase();
+    }
+     @PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    @Path("/lowercase")
+    public String LowerCase(String content) {
+        return content.toLowerCase();
+    }
+
+-----------------------------------------------------------
+ Scanner sc = new Scanner(System.in); 
+        System.out.println("Enter string : ");
+        String str = sc.next();
+        
+        //NAME THE PACKAGE restful1
+        restful1.NewJerseyClient client = new restful1.NewJerseyClient();
+        System.out.println(client.LowerCase(str));
+        System.out.println(client.upperCase(str));

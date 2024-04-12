@@ -1,0 +1,29 @@
+---------------------------------------------
+practical 4b-----restful reverse of the number
+-------------------------------------------
+
+@PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    @Path("/reverseNumber")
+    public String ReverseNumber(String content) {
+        
+        int num = Integer.parseInt(content);
+        
+        int rev = 0;
+        
+        while(num!=0){
+            int rem = num % 10;
+            rev = rev * 10 + rem;
+            num = num/10;
+        }
+        String ans = Integer.toString(rev);
+        return ans;
+    }
+--------------------------------------------------
+ restful3.NewJerseyClient client = new restful3.NewJerseyClient();
+        
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter number");
+        String s = sc.next();
+        String rev = client.ReverseNumber(s);
+        System.out.println(rev);

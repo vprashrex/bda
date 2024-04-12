@@ -1,0 +1,38 @@
+======================
+PRATICAL 4C
+fibonacci rest
+
+@PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    @Path("/fionacci")
+    public String FibonacciNumber(String content) {
+    int num = Integer.parseInt(content);
+    StringBuilder result = new StringBuilder();
+    int first = 0;
+    int second = 1;
+    
+    for (int i = 0; i < num; i++) {
+        result.append(first).append(",");
+        int next = first + second;
+        first = second;
+        second = next;
+    }
+    
+    if (result.length() > 0) {
+        // Adjusting length to remove the trailing comma
+        result.setLength(result.length() - 1);
+    }
+    
+    return result.toString();
+}
+
+
+
+server
+
+restful4.NewJerseyClient client = new restful4.NewJerseyClient();
+Scanner sc = new Scanner(System.in);
+System.out.println("Enter number");
+String s = sc.next();
+String rev = client.FibonacciNumber(s);
+System.out.println(rev);

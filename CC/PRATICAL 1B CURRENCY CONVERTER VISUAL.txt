@@ -1,0 +1,53 @@
+PRATICAL 1B
+
+NEW WEB APPLICATION > ADD ITEM WEB SERVICE ASMX
+THEN ADD THIS CODE
+BUILD
+RIGHT CLICK ON WEBSERCICE.ASMX
+VIEW IN BROWSER
+
+[WebMethod]
+public double inr2usd(double inr) {
+    return (inr / 82);
+}
+
+[WebMethod]
+public double usd2inr(double usd)
+{
+    return (usd * 82);
+}
+
+
+then create webform
+once created add this code
+<asp:Label ID="Label1" runat="server" Text="Enter the amount"></asp:Label>
+<asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+<asp:RadioButton ID="USD" runat="server" Text="USD2INR"/>
+<asp:RadioButton ID="INR" runat="server" Text="INR2USD"/>
+<asp:Button ID="Button1" runat="server" Text="Convert" OnClick="Button1_Click" />
+<asp:Label ID="Label2" runat="server" Text=""></asp:Label>
+
+after add service reference
+by right click on procject and add new item 
+and add service refernce
+put the url
+and add the service reference
+
+convert button double click
+
+ServiceReference1.WebService1SoapClient client = new ServiceReference1.WebService1SoapClient();
+double amt = Convert.ToDouble(TextBox1.Text);
+
+double ans = 0.0;
+
+if (USD.Checked)
+{
+    ans = client.usd2inr(amt);
+}
+else
+{
+    ans = client.inr2usd(amt);
+}
+
+Label2.Text = "RESULT = "+ans;
+

@@ -1,0 +1,18 @@
+------------------------------------------------------
+practical-- 2 conerted from usd to inr and vice versa(soap)
+-----------------------------------------------------
+
+ Scanner sc = new Scanner(System.in);
+        
+        System.out.println("Enter usd : ");
+        int usd = sc.nextInt();
+        
+        System.out.println("Enter inr : ");
+        int inr = sc.nextInt();
+        
+        int u2i = usd2Inr(usd);
+        System.out.println("Converted usd to inr : "+u2i);
+        
+        int i2u = inr2Usd(inr);
+        System.out.println("Converted usd to inr : "+i2u);
+

@@ -1,0 +1,24 @@
+--------------------------------------------
+practical 1- web service using java netbean(soap)
+------------------------------------------
+    {
+        try
+        {
+          int a=5;
+          int b=5;
+          double r1 = add(a,b);
+          double r2 = sub(a,b);
+          double r3 = mul(a,b);
+          double r4 = div(a,b);
+          
+          System.out.println("addition : "+r1);
+          System.out.println("substraction : "+r2);
+          System.out.println("multipliocation : "+r3);
+          System.out.println("division : "+r4);
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error: "+e) ;      
+        }
+        
+    }

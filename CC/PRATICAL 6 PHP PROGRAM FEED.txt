@@ -1,0 +1,38 @@
+--------------------------------------------------------------
+prctical-6----Write the program for Web feed in a php file
+---------------------------------------------------------
+
+<?php
+$feed = new SimpleXMLElement('<rss></rss>');
+$feed->addAttribute('version', '2.0');
+$channel = $feed->addChild('channel');
+$channel->addChild('title', 'My Blog');
+$channel->addChild('link', 'https://www.example.com/blog');
+$channel->addChild('description', 'Updates on my latest blog posts');
+
+// add entries to the feed
+$entries = array(
+    array(
+        'title' => 'My First Post',
+        'link' => 'https://www.example.com/blog/my-first-post',
+        'description' => 'This is the description of my first post',
+        'pubDate' => 'Sat, 01 Jan 2022 00:00:00 +0000'
+    ),
+    array(
+        'title' => 'My Second Post',
+        'link' => 'https://www.example.com/blog/my-second-post',
+        'description' => 'This is the description of my second post',
+        'pubDate' => 'Sun, 02 Jan 2022 00:00:00 +0000'
+    )
+);
+
+foreach ($entries as $entry) {
+    $item = $channel->addChild('item');
+    $item->addChild('title', $entry['title']);
+    $item->addChild('link', $entry['link']);
+    $item->addChild('description', $entry['description']);
+    $item->addChild('pubDate', $entry['pubDate']);
+}
+
+echo $feed->asXML(); // Output the RSS feed as XML
+?>

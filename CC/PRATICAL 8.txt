@@ -1,0 +1,55 @@
+PRATICAL 8
+
+MTOM DOWNLOAD IMAGE PRATICA
+
+DownloadImageWS under WebService1
+
+=====================================================================
+        [WebMethod, Description("Get image Content")]
+        public byte[] GetImageFile(string fileName)
+        {
+            if (System.IO.File.Exists(Server.MapPath("~/Images/") + fileName))
+            {
+                return System.IO.File.ReadAllBytes(Server.MapPath("~/Images/") +
+fileName);
+            }
+            else
+            {
+                return new byte[] { 0 };
+            }
+        }
+
+=====================================================================
+then create generic handler
+Handler1.ashx.cs
+
+DownloadImageWS ws = new DownloadImageWS();
+byte[] binImage = ws.GetImageFile(context.Request["filename"]);
+if(binImage.Length == 1)
+{
+    // do nothing
+}
+else
+{
+    context.Response.ContentType = "image/jpeg";
+    context.Response.BinaryWrite(binImage);
+}
+
+=====================================================================
+
+WebForm1.aspx
+<div> 
+    <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Button1_Click" />
+    <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+    <asp:Image ID="Image1" runat="server" />
+</div>
+
+=======================================================================
+
+webForm1.aspx.cs
+
+Image1.ImageUrl = "~/Handler1.ashx?filename=" + TextBox1.Text;
+Response.Write("Download Image is Done");
+
+=======================================================================
+
