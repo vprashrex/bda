@@ -1,0 +1,19 @@
+1.	Check if your system can use KVM acceleration by typing: sudo kvm-ok
+sudo kvm-ok
+ sudo apt install cpu-checker
+sudo apt update
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils
+sudo adduser ‘[username]’ kvm
+virsh list --all
+sudo systemctl enable --now libvirtd
+sudo apt install virt-manager
+Start virt-manager with: sudo virt-manager
+In the first window, click the computer icon in the upper-left corner.
+In the dialogue box that opens, select the option to install the VM using an ISO image. Then click Forward.
+In the next dialogue, click Browse Local and navigate to the path where you stored the ISO you wish to install
+The ISO you chose in the previous window populates the field in Step 2. Proceed to Step 3 by clicking Forward.
+
+Enter the amount of RAM and the number of CPUs you wish to allocate to the VM and proceed to the next step.
+7.	Allocate hard disk space to the VM. Click Forward to go to the last step.
+8.	Specify the name for your VM and click Finish to complete the setup.
+9.	The VM starts automatically, prompting you to start installing the OS that’s on the ISO file.
